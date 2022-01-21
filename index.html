@@ -8,7 +8,19 @@
 </head>
 
 <body>
+    <div id="container">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div> 
+
+    <div id="results"></div>
+    <div id="wins"></div>
+
+    </div>
+
     <script>
+
         let randNum;
         let choices = ["rock", "paper", "scissors"];
         let playerWins = 0;
@@ -19,34 +31,35 @@
             return choices[randNum];
         }
 
+        const result = document.querySelector("#results");
+        const wins = document.querySelector("#wins");
+          
         function playRound(playerSelection, computerSelection) {
             let player = choices.indexOf(playerSelection.toLowerCase());
             let comp = choices.indexOf(computerSelection);
             let result = comp - player; 
             // calculating winner based on integer differences 
             if (result == 0) {
-                return ("Tie, " + computerSelection + " and " + playerSelection);
+                results.innerText = ("Tie, " + computerSelection + " and " + playerSelection);
             }
             else if (result == 1 || result == -2) {
                 compWins ++;
-                return ("You lose, " + computerSelection + " beats " + playerSelection);
+                results.innerText = ("You lose, " + computerSelection + " beats " + playerSelection);
             }
             else if (result == -1 || result == 2) {
                 playerWins ++;
-                return ("You win, " + playerSelection + " beats " + computerSelection);
+                results.innerText = ("You win, " + playerSelection + " beats " + computerSelection);
             }
-
-            return null;
         }
 
-        function game() {
-            for(let i = 0; i < 5; i ++) {
-                const playerSelection = prompt("Rock, paper, or scissors?");
-                const computerSelection = computerPlay();
+        const buttons = document.querySelectorAll('button');
 
-                console.log(playRound(playerSelection, computerSelection));
-                console.log(compWins + " " + playerWins);
-            }
+        function game(playerSelection) {
+            const computerSelection = computerPlay();
+
+            console.log(playRound(playerSelection, computerSelection));
+            console.log(compWins + " " + playerWins);
+            
 
             if (compWins > playerWins) {
                 console.log("The computer won!");
@@ -54,12 +67,20 @@
             else if (compWins < playerWins) {
                 console.log("You won!");        
             }
-            else { console.log("Its a tie!");
-            }
-        }
-        
-        game();
+            else console.log("Its a tie!");
 
+            wins.innerText = "Computer Wins: " + compWins + " Player Wins: " + playerWins;
+            
+        }
+
+        
+
+        buttons.forEach((buttons) => {
+            buttons.addEventListener('click', () => {
+                game(buttons.id);
+            });
+        });
+        
     </script>
 </body>
 </html>
